@@ -92,14 +92,14 @@ function validationForUpdate(req, res, next) {
 }
 
 function update(req, res) {
-  const dishId = req.params.dishId;
-  const foundDish = dishes.find((dish) => dish.id === dishId);
+//   const dishId = req.params.dishId;
+//   const foundDish = dishes.find((dish) => dish.id === dishId);
   const { data: { name, description, image_url, price } = {} } = req.body;
-  foundDish.name = name;
-  foundDish.description = description;
-  foundDish.image_url = image_url;
-  foundDish.price = price;
-  res.json({ data: foundDish });
+  res.locals.foundDish.name = name;
+  res.locals.foundDish.description = description;
+  res.locals.foundDish.image_url = image_url;
+  res.locals.foundDish.price = price;
+  res.json({ data: res.locals.foundDish });
 }
 
 module.exports = {
