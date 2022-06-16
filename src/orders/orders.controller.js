@@ -98,7 +98,7 @@ function read(req, res) {
 function validationForUpdate(req, res, next) {
   const orderId = req.params.orderId;
   const idFromTheBody = req.body.data.id;
-  const foundOrder = orders.find((order) => order.id === orderId);
+//   const foundOrder = orders.find((order) => order.id === orderId);
   const { data: { status } = {} } = req.body;
 
   let errorMessage;
@@ -116,7 +116,7 @@ function validationForUpdate(req, res, next) {
     status !== "delivered"
   ) {
     errorMessage = `Order must have a status of pending, preparing, out-for-delivery, delivered`;
-  } else if (foundOrder.status === "delivered") {
+  } else if (res.locals.foundOrder.status === "delivered") {
     errorMessage = `A delivered order cannot be changed`;
   }
 
@@ -129,13 +129,13 @@ function validationForUpdate(req, res, next) {
 
 function update(req, res) {
   const orderId = req.params.orderId;
-  const foundOrder = orders.find((order) => order.id === orderId);
+//   const foundOrder = orders.find((order) => order.id === orderId);
 
   const { data: { deliverTo, mobileNumber, dishes } = {} } = req.body;
-  foundOrder.deliverTo = deliverTo;
-  foundOrder.mobileNumber = mobileNumber;
-  foundOrder.dishes = dishes;
-  res.json({ data: foundOrder });
+  res.locals.foundOrder.deliverTo = deliverTo;
+  res.locals.foundOrder.mobileNumber = mobileNumber;
+  res.locals.foundOrder.dishes = dishes;
+  res.json({ data: res.locals.foundOrder });
 }
 // Validation for destroy! Do not delete an order unless it is pending! ~Mercy
 function isTheStatusPending(req, res, next) {
