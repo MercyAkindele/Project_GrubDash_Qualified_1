@@ -139,9 +139,9 @@ function update(req, res) {
 }
 // Validation for destroy! Do not delete an order unless it is pending! ~Mercy
 function isTheStatusPending(req, res, next) {
-  const { orderId } = req.params;
-  const foundOrder = orders.find((order) => order.id === orderId);
-  if (foundOrder.status === "pending") {
+  //const { orderId } = req.params;
+//   const foundOrder = orders.find((order) => order.id === orderId);
+  if (res.locals.foundOrder.status === "pending") {
     return next();
   } else {
     return badRequest(
