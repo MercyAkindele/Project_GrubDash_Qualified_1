@@ -76,6 +76,8 @@ When given an order id, are there any orders that actually have that Id ~Mercy*/
 function orderExists(req, res, next) {
   const orderId = req.params.orderId;
   const foundOrder = orders.find((order) => order.id === orderId);
+  res.locals.foundOrder = foundOrder
+
   if (foundOrder) {
     return next();
   } else {
@@ -84,9 +86,12 @@ function orderExists(req, res, next) {
 }
 
 function read(req, res) {
-  const orderId = req.params.orderId;
-  const foundOrder = orders.find((order) => order.id === orderId);
-  res.json({ data: foundOrder });
+//   const orderId = req.params.orderId;
+//   const foundOrder = orders.find((order) => order.id === orderId);
+
+//   res.json({ data: foundOrder });
+
+    res.json({ data: res.locals.foundOrder });
 }
 
 /* More validation code for update! ~Mercy*/
