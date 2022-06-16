@@ -18,7 +18,8 @@ function list(req, res) {
 function dishExists(req, res, next) {
   const dishId = req.params.dishId;
   const foundDish = dishes.find((dish) => dish.id === dishId);
-  if (foundDish) {
+  res.locals.foundDish = foundDish;
+  if (res.locals.foundDish) {
     return next();
   } else {
     return notFound(req, res, next);
@@ -26,9 +27,9 @@ function dishExists(req, res, next) {
 }
 
 function read(req, res) {
-  const dishId = req.params.dishId;
-  const foundDish = dishes.find((dish) => dish.id === dishId);
-  res.json({ data: foundDish });
+//   const dishId = req.params.dishId;
+//   const foundDish = dishes.find((dish) => dish.id === dishId);
+  res.json({ data: res.locals.foundDish });
 }
 
 /* Validation code for create and update! When given a potential dish, 
