@@ -76,7 +76,7 @@ When given an order id, are there any orders that actually have that Id ~Mercy*/
 function orderExists(req, res, next) {
   const orderId = req.params.orderId;
   const foundOrder = orders.find((order) => order.id === orderId);
-  res.locals.foundOrder = foundOrder
+  res.locals.foundOrder = foundOrder;
 
   if (foundOrder) {
     return next();
@@ -86,19 +86,19 @@ function orderExists(req, res, next) {
 }
 
 function read(req, res) {
-//   const orderId = req.params.orderId;
-//   const foundOrder = orders.find((order) => order.id === orderId);
+  //   const orderId = req.params.orderId;
+  //   const foundOrder = orders.find((order) => order.id === orderId);
 
-//   res.json({ data: foundOrder });
+  //   res.json({ data: foundOrder });
 
-    res.json({ data: res.locals.foundOrder });
+  res.json({ data: res.locals.foundOrder });
 }
 
 /* More validation code for update! ~Mercy*/
 function validationForUpdate(req, res, next) {
   const orderId = req.params.orderId;
   const idFromTheBody = req.body.data.id;
-//   const foundOrder = orders.find((order) => order.id === orderId);
+  //   const foundOrder = orders.find((order) => order.id === orderId);
   const { data: { status } = {} } = req.body;
 
   let errorMessage;
@@ -129,7 +129,7 @@ function validationForUpdate(req, res, next) {
 
 function update(req, res) {
   const orderId = req.params.orderId;
-//   const foundOrder = orders.find((order) => order.id === orderId);
+  //   const foundOrder = orders.find((order) => order.id === orderId);
 
   const { data: { deliverTo, mobileNumber, dishes } = {} } = req.body;
   res.locals.foundOrder.deliverTo = deliverTo;
@@ -140,16 +140,12 @@ function update(req, res) {
 // Validation for destroy! Do not delete an order unless it is pending! ~Mercy
 function isTheStatusPending(req, res, next) {
   //const { orderId } = req.params;
-//   const foundOrder = orders.find((order) => order.id === orderId);
+  //   const foundOrder = orders.find((order) => order.id === orderId);
   if (res.locals.foundOrder.status === "pending") {
     return next();
   } else {
-    return badRequest(
-      `An order cannot be deleted unless it is pending`,
-      req,
-      res,
-      next
-    );
+    const errorMessage = `An order cannot be deleted unless it is pending`;
+    return badRequest(errorMessage, req, res, next);
   }
 }
 

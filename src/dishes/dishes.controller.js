@@ -14,6 +14,7 @@ const badRequest = require("../errors/badRequest");
 function list(req, res) {
   res.json({ data: dishes });
 }
+
 // Validation code for list and update! When given a dish id, are there any dishes that have that Id ~Mercy
 function dishExists(req, res, next) {
   const dishId = req.params.dishId;
@@ -27,8 +28,8 @@ function dishExists(req, res, next) {
 }
 
 function read(req, res) {
-//   const dishId = req.params.dishId;
-//   const foundDish = dishes.find((dish) => dish.id === dishId);
+  //   const dishId = req.params.dishId;
+  //   const foundDish = dishes.find((dish) => dish.id === dishId);
   res.json({ data: res.locals.foundDish });
 }
 
@@ -82,18 +83,16 @@ function validationForUpdate(req, res, next) {
     if (dishId === idFromTheBody) {
       return next();
     } else {
-      return next({
-        status: 400,
-        message: `Dish id does not match route id. Dish: ${idFromTheBody}, Route: ${dishId}`,
-      });
+      const errorMessage = `Dish id does not match route id. Dish: ${idFromTheBody}, Route: ${dishId}`;
+      return badRequest(errorMessage, req, res, next);
     }
   }
   return next();
 }
 
 function update(req, res) {
-//   const dishId = req.params.dishId;
-//   const foundDish = dishes.find((dish) => dish.id === dishId);
+  //   const dishId = req.params.dishId;
+  //   const foundDish = dishes.find((dish) => dish.id === dishId);
   const { data: { name, description, image_url, price } = {} } = req.body;
   res.locals.foundDish.name = name;
   res.locals.foundDish.description = description;
